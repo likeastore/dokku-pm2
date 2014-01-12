@@ -36,4 +36,6 @@ The list of `pm2` commands exposed by `dokku` interace:
 
 ## License
 
-MIT 2014 info@likeastore.com
+MIT Licensed
+
+Copyright (c) 2013, Likeastore.com info@likeastore.com
