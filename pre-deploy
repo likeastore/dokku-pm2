@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+set -eo pipefail; [[ $DOKKU_TRACE ]] && set -x
+APP="$1";  IMAGE="$2"
+
+echo '-----> Running pm2 script'
+id=$(docker run -d $IMAGE /bin/bash -c "/app/.pm2")
+docker attach $id
+test $(docker wait $id) -eq 0
+docker commit $id $IMAGE > /dev/null

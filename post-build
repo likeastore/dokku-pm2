@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+set -eo pipefail; [[ $DOKKU_TRACE ]] && set -x
+APP="$1";  IMAGE="$2"
+
+PM2SCRIPT="
+#!/bin/bash
+
+cd /app
+PATH=\$PATH:/app/vendor/node/bin
+if [[ -f ./processes.json ]]; then
+	npm install -g pm2
+fi
+"
+
+echo '-----> Injecting pm2 script'
+id=$(echo "$PM2SCRIPT" | docker run -i -a stdin $IMAGE /bin/bash -c "cat > /app/.pm2")
+test $(docker wait $id) -eq 0
+docker commit $id $IMAGE > /dev/null
+id=$(docker run -d $IMAGE /bin/bash -c "chmod +x /app/.pm2")
+test $(docker wait $id) -eq 0
+docker commit $id $IMAGE > /dev/null
