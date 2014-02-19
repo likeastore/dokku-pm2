@@ -13,9 +13,9 @@ fi
 "
 
 echo '-----> Injecting pm2 script'
-id=$(echo "$PM2SCRIPT" | docker run -i -a stdin $IMAGE /bin/bash -c "cat > /app/.pm2")
+id=$(echo "$PM2SCRIPT" | docker run -i -a stdin $IMAGE /bin/bash -c "cat > /app/.pm2-script")
 test $(docker wait $id) -eq 0
 docker commit $id $IMAGE > /dev/null
-id=$(docker run -d $IMAGE /bin/bash -c "chmod +x /app/.pm2")
+id=$(docker run -d $IMAGE /bin/bash -c "chmod +x /app/.pm2-script")
 test $(docker wait $id) -eq 0
 docker commit $id $IMAGE > /dev/null
