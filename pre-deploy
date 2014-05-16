@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 set -eo pipefail; [[ $DOKKU_TRACE ]] && set -x
-APP="$1";  IMAGE="app/$APP"
+APP="$1";  IMAGE="dokku/$APP"
 
 echo '-----> Running pm2 script'
 id=$(docker run -d $IMAGE /bin/bash -c "/app/.pm2-script")
